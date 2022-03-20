@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/IconLogo">
+        <file>img/networklogo.png</file>
+        <file>img/deletelogo.png</file>
+        <file>img/addlogo.png</file>
+    </qresource>
+</RCC>
