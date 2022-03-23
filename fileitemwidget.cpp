@@ -18,7 +18,7 @@ bool FileItemWidget::isKeyValueItemWidget()
     return false;
 }
 
-void FileItemWidget::setFileName(const QString & fileName)
+void FileItemWidget::setFileName(const QString &fileName)
 {
     fileNameLabel->setText(fileName);
 }
@@ -30,5 +30,6 @@ QString FileItemWidget::getFileName()
 
 void FileItemWidget::onClickDeleteBtn()
 {
+    // When it's deleted, inform the parent dialog.
     emit selfDelete();
 }

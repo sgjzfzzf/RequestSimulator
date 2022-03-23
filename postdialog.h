@@ -1,4 +1,7 @@
-﻿#ifndef POSTDIALOG_H
+﻿/*
+    The dialog which help users to send post request.
+*/
+#ifndef POSTDIALOG_H
 #define POSTDIALOG_H
 
 #include <QDialog>
@@ -29,10 +32,26 @@ class PostDialog : public QDialog
     Q_OBJECT
 public:
     PostDialog(QWidget *parent = nullptr);
+    // Find whether there are files need to send.
     bool isFileAvailable();
-    QNetworkReply* sendXWWWRequest(QNetworkRequest&);
-    QNetworkReply* sendJsonRequest(QNetworkRequest&);
-    QNetworkReply* sendMultiRequest(QNetworkRequest&);
+    /*
+        Based on the request send related information in the form of x-www-form-urlencode to server.
+        @param QNetworkRequest the ref of related request.
+        @return QNetworkReply the reply from sever.
+    */
+    QNetworkReply *sendXWWWRequest(QNetworkRequest &);
+    /*
+        Based on the request send related information in the form of json to server.
+        @param QNetworkRequest the ref of related request.
+        @return QNetworkReply the reply from sever.
+    */
+    QNetworkReply *sendJsonRequest(QNetworkRequest &);
+    /*
+        Based on the request send related information in the form of multipart-data to server.
+        @param QNetworkRequest the ref of related request.
+        @return QNetworkReply the reply from sever.
+    */
+    QNetworkReply *sendMultiRequest(QNetworkRequest &);
 
 private:
     QNetworkAccessManager *manager = new QNetworkAccessManager(this);
@@ -68,6 +87,10 @@ public slots:
     void deleteFileItem();
     void sendRequest();
     void receiveReply();
+    /* 
+        TODO:
+        It's waiting for further development.
+    */
     void getParseHTML();
     void getParseJson();
 };

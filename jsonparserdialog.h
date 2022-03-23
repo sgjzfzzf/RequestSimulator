@@ -10,7 +10,7 @@ class JsonParserDialog : public QDialog
     Q_OBJECT
 public:
     JsonParserDialog(QWidget *parent = nullptr);
-    QTreeWidget* getTreeWidget();
+    QTreeWidget *getTreeWidget();
 
 private:
     QVBoxLayout *mainLayout = new QVBoxLayout(this);

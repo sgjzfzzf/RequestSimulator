@@ -1,6 +1,6 @@
 ﻿#include "jsonparserdialog.h"
 
-JsonParserDialog::JsonParserDialog(QWidget *parent): QDialog(parent)
+JsonParserDialog::JsonParserDialog(QWidget *parent) : QDialog(parent)
 {
     setWindowTitle("Parse Json Dialog");
     setWindowIcon(QIcon(":/IconLogo/img/networklogo.png"));
@@ -8,7 +8,7 @@ JsonParserDialog::JsonParserDialog(QWidget *parent): QDialog(parent)
     tree->clear();
 }
 
-QTreeWidget* JsonParserDialog::getTreeWidget()
+QTreeWidget *JsonParserDialog::getTreeWidget()
 {
     return tree;
 }

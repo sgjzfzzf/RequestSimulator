@@ -2,8 +2,7 @@
 #include "ui_menudialog.h"
 
 MenuDialog::MenuDialog(QWidget *parent)
-    : QDialog(parent)
-    , ui(new Ui::MenuDialog)
+    : QDialog(parent), ui(new Ui::MenuDialog)
 {
     ui->setupUi(this);
     setWindowIcon(QIcon(":/IconLogo/img/networklogo.png"));

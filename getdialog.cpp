@@ -1,6 +1,6 @@
 ﻿#include "getdialog.h"
 
-GetDialog::GetDialog(QWidget *parent): QDialog(parent)
+GetDialog::GetDialog(QWidget *parent) : QDialog(parent)
 {
     setFixedSize(1000, 750);
     setWindowIcon(QIcon(":/IconLogo/img/networklogo.png"));
@@ -34,13 +34,13 @@ void GetDialog::addItem()
     KeyValueItemWidget *itemWidget = new KeyValueItemWidget(this);
     paramsList->addItem(itemWidget);
     paramsList->setItemWidget(itemWidget, itemWidget);
-    itemWidget->setSizeHint(itemWidget->size()*1.5);
+    itemWidget->setSizeHint(itemWidget->size() * 1.5);
     connect(itemWidget, SIGNAL(selfDelete()), this, SLOT(deleteItem()));
 }
 
 void GetDialog::deleteItem()
 {
-    KeyValueItemWidget *itemWidget = (KeyValueItemWidget*) sender();
+    KeyValueItemWidget *itemWidget = (KeyValueItemWidget *)sender();
     paramsList->removeItemWidget(itemWidget);
     delete itemWidget;
 }
@@ -50,9 +50,10 @@ void GetDialog::sendRequest()
     QString url = urlInput->text();
     if (paramsList->count())
         url.append('?');
+    // Add parameters to the end of url.
     for (int i = 0; i < paramsList->count(); ++i)
     {
-        KeyValueItemWidget *itemWidget = (KeyValueItemWidget*) paramsList->item(i);
+        KeyValueItemWidget *itemWidget = (KeyValueItemWidget *)paramsList->item(i);
         QString param = QString::fromLocal8Bit("%1=%2&").arg(itemWidget->getKey(), itemWidget->getValue());
         url.append(param);
     }
@@ -64,7 +65,7 @@ void GetDialog::sendRequest()
 
 void GetDialog::receiveReply()
 {
-    QNetworkReply *reply = (QNetworkReply*) sender();
+    QNetworkReply *reply = (QNetworkReply *)sender();
     resultDisplayer->insertPlainText(reply->readAll());
 }
 

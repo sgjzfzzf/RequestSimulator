@@ -33,5 +33,6 @@ QString KeyValueItemWidget::getValue()
 
 void KeyValueItemWidget::onClickDeleteBtn()
 {
+    // When it's deleted, inform the parent dialog.
     emit selfDelete();
 }

@@ -2,5 +2,4 @@
 
 SpecialItemWidget::SpecialItemWidget(QWidget *parent) : QWidget(parent)
 {
-
 }

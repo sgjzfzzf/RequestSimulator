@@ -1,4 +1,7 @@
-﻿#ifndef GETDIALOG_H
+﻿/*
+    The dialog which help users to send get request.
+*/
+#ifndef GETDIALOG_H
 #define GETDIALOG_H
 
 #include <QDialog>
@@ -44,6 +47,10 @@ public slots:
     void deleteItem();
     void sendRequest();
     void receiveReply();
+    /*
+        TODO:
+        It's waiting for further development.
+    */
     void getParseHTML();
     void getParseJson();
 };

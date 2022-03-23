@@ -1,4 +1,7 @@
-﻿#ifndef PARSE_H
+﻿/*
+    This is the implemention of some function helping to parse reply content.
+*/
+#ifndef PARSE_H
 #define PARSE_H
 
 #include <QString>
@@ -9,10 +12,38 @@
 #include <QJsonParseError>
 #include "jsonparserdialog.h"
 
-void parseHTML(const QString&);
-void parseJson(QTreeWidget*, const QByteArray&);
-void parseJsonObject(QTreeWidgetItem*, const QJsonObject&);
-void parseJsonArray(QTreeWidgetItem*, const QJsonArray&, QString);
-QString convertJsonValueToString(const QJsonValue&);
+/*
+    TODO:
+    It's waiting for further development.
+*/
+void parseHTML(const QString &);
+/*
+    Initialize the QTreeWidget while parsing json.
+    @param QTreeWidget* the pointer of the QTreeWidget which need initialization
+    @param QByteArray the ref of byte array of json
+    @return None
+*/
+void parseJson(QTreeWidget *, const QByteArray &);
+/*
+    Initialize related QTreeWidgetItem based on QJsonObject.
+    @param QTreeWidget* the pointer of the QTreeWidget which need initialization
+    @param QByteArray the ref of byte array of json object
+    @return None
+*/
+void parseJsonObject(QTreeWidgetItem *, const QJsonObject &);
+/*
+    Initialize related QTreeWidgetItem based on QJsonArray.
+    @param QTreeWidget* the pointer of the QTreeWidget which need initialization
+    @param QByteArray the ref of byte array of json array
+    @param QString the name of parent node, which can help to give name to the array nodes which don't have key
+    @return None
+*/
+void parseJsonArray(QTreeWidgetItem *, const QJsonArray &, const QString &);
+/*
+    Covert the json value into string based on their class instead of default method.
+    @param QJsonValue the value needing to translate
+    @return QString the result string
+*/
+QString convertJsonValueToString(const QJsonValue &);
 
 #endif // PARSE_H

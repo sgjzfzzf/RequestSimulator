@@ -1,4 +1,7 @@
-﻿#ifndef MENUDIALOG_H
+﻿/*
+    The menu dialog of this project. It helps users to choose the pattern they want.
+*/
+#ifndef MENUDIALOG_H
 #define MENUDIALOG_H
 
 #include <QDialog>
@@ -8,7 +11,10 @@
 #include "postdialog.h"
 
 QT_BEGIN_NAMESPACE
-namespace Ui { class MenuDialog; }
+namespace Ui
+{
+    class MenuDialog;
+}
 QT_END_NAMESPACE
 
 class MenuDialog : public QDialog

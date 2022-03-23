@@ -10,6 +10,11 @@
 #include <QListWidgetItem>
 #include "specialitemwidget.h"
 
+/*
+    The class of QListWidgetItem in the QListWidget.
+    It's the implemention of SpecialItemWidget.
+    This class stores the item about key-value pair sending.
+*/
 class KeyValueItemWidget : public SpecialItemWidget
 {
     Q_OBJECT
@@ -20,11 +25,7 @@ public:
     QString getKey();
     QString getValue();
 
-signals:
-    void selfDelete();
-
 private:
-
     QHBoxLayout *mainLayout = new QHBoxLayout(this);
     QLabel *keyLabel = new QLabel("Key:", this);
     QLineEdit *keyInput = new QLineEdit(this);
@@ -34,7 +35,6 @@ private:
 
 public slots:
     void onClickDeleteBtn();
-
 };
 
 #endif // KEYVALUEITEMWIDGET_H

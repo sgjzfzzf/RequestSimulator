@@ -9,7 +9,8 @@ void parseJson(QTreeWidget *tree, const QByteArray &json)
 {
     QJsonParseError error;
     QJsonDocument doc = QJsonDocument::fromJson(json, &error);
-    if (!doc.isNull() && error.error == QJsonParseError::NoError){
+    if (!doc.isNull() && error.error == QJsonParseError::NoError)
+    {
         if (doc.isObject())
         {
             QTreeWidgetItem *item = new QTreeWidgetItem;
@@ -53,12 +54,14 @@ void parseJsonObject(QTreeWidgetItem *item, const QJsonObject &obj)
     }
 }
 
-void parseJsonArray(QTreeWidgetItem *item, const QJsonArray &array, QString parentName)
+void parseJsonArray(QTreeWidgetItem *item, const QJsonArray &array, const QString &parentName)
 {
+    // This counter help to name nodes based on their index.
     int counter = 0;
     for (QJsonArray::const_iterator it = array.begin(); it != array.end(); ++counter, ++it)
     {
         QJsonValue value = *it;
+        // Name the node of array.
         QString name = QString::fromLocal8Bit("%1[%2]").arg(parentName, QString::number(counter));
         if (value.isObject())
         {
@@ -85,6 +88,7 @@ void parseJsonArray(QTreeWidgetItem *item, const QJsonArray &array, QString pare
 
 QString convertJsonValueToString(const QJsonValue &value)
 {
+    // Accordint to the type of value make use of different methods to transfer their content into string.
     if (value.isBool())
     {
         if (value.toBool())

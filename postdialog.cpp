@@ -1,6 +1,6 @@
 ﻿#include "postdialog.h"
 
-PostDialog::PostDialog(QWidget *parent): QDialog(parent)
+PostDialog::PostDialog(QWidget *parent) : QDialog(parent)
 {
     setWindowTitle("Post Request Dialog");
     setWindowIcon(QIcon(":/IconLogo/img/networklogo.png"));
@@ -49,7 +49,7 @@ bool PostDialog::isFileAvailable()
 {
     for (int i = 0; i < dataList->count(); ++i)
     {
-        SpecialItemWidget *itemWidget = (SpecialItemWidget*)dataList->item(i);
+        SpecialItemWidget *itemWidget = (SpecialItemWidget *)dataList->item(i);
         if (itemWidget->isFileItemWidget())
         {
             return true;
@@ -58,51 +58,51 @@ bool PostDialog::isFileAvailable()
     return false;
 }
 
-QNetworkReply* PostDialog::sendXWWWRequest(QNetworkRequest &request)
+QNetworkReply *PostDialog::sendXWWWRequest(QNetworkRequest &request)
 {
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
     QString data = "";
-    for (int i = 0; i  < dataList->count(); ++i)
+    for (int i = 0; i < dataList->count(); ++i)
     {
-        KeyValueItemWidget *itemWidget = (KeyValueItemWidget*)dataList->item(i);
+        KeyValueItemWidget *itemWidget = (KeyValueItemWidget *)dataList->item(i);
         data.append(QString::fromLocal8Bit("%1=%2&").arg(itemWidget->getKey(), itemWidget->getValue()));
     }
     return manager->post(request, data.toLocal8Bit());
 }
 
-QNetworkReply* PostDialog::sendJsonRequest(QNetworkRequest &request)
+QNetworkReply *PostDialog::sendJsonRequest(QNetworkRequest &request)
 {
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     QJsonObject obj;
-    for (int i = 0; i  < dataList->count(); ++i)
+    for (int i = 0; i < dataList->count(); ++i)
     {
-        KeyValueItemWidget *itemWidget = (KeyValueItemWidget*)dataList->item(i);
+        KeyValueItemWidget *itemWidget = (KeyValueItemWidget *)dataList->item(i);
         obj.insert(itemWidget->getKey(), itemWidget->getValue());
     }
     QJsonDocument doc(obj);
     return manager->post(request, doc.toJson());
 }
 
-QNetworkReply* PostDialog::sendMultiRequest(QNetworkRequest &request)
+QNetworkReply *PostDialog::sendMultiRequest(QNetworkRequest &request)
 {
-    QHttpMultiPart *multiPart =  new QHttpMultiPart(QHttpMultiPart::FormDataType);
-    for (int i = 0; i  < dataList->count(); ++i)
+    QHttpMultiPart *multiPart = new QHttpMultiPart(QHttpMultiPart::FormDataType);
+    for (int i = 0; i < dataList->count(); ++i)
     {
-        SpecialItemWidget *itemWidget = (SpecialItemWidget*)dataList->item(i);
+        SpecialItemWidget *itemWidget = (SpecialItemWidget *)dataList->item(i);
         QHttpPart part;
         if (itemWidget->isKeyValueItemWidget())
         {
-            part.setHeader(QNetworkRequest::ContentDispositionHeader, QString::fromLocal8Bit("form-data; name=\"%1\"").arg(((KeyValueItemWidget*)itemWidget)->getKey()));
-            part.setBody(((KeyValueItemWidget*)itemWidget)->getValue().toLocal8Bit());
+            part.setHeader(QNetworkRequest::ContentDispositionHeader, QString::fromLocal8Bit("form-data; name=\"%1\"").arg(((KeyValueItemWidget *)itemWidget)->getKey()));
+            part.setBody(((KeyValueItemWidget *)itemWidget)->getValue().toLocal8Bit());
         }
         else if (itemWidget->isFileItemWidget())
         {
-            QString path = ((FileItemWidget*)itemWidget)->getFileName();
+            QString path = ((FileItemWidget *)itemWidget)->getFileName();
             QFile *file = new QFile(path);
             if (file->open(QFile::ReadOnly))
             {
                 QString fileName = path.split("/").last();
-                part.setHeader(QNetworkRequest::ContentDispositionHeader,QString::fromLocal8Bit("form-data; name=\"%1\"; filename=\"%2\"").arg(fileName, fileName));
+                part.setHeader(QNetworkRequest::ContentDispositionHeader, QString::fromLocal8Bit("form-data; name=\"%1\"; filename=\"%2\"").arg(fileName, fileName));
                 part.setBodyDevice(file);
             }
         }
@@ -116,13 +116,13 @@ void PostDialog::addParamItem()
     KeyValueItemWidget *itemWidget = new KeyValueItemWidget(this);
     paramsList->addItem(itemWidget);
     paramsList->setItemWidget(itemWidget, itemWidget);
-    itemWidget->setSizeHint(itemWidget->size()*1.5);
+    itemWidget->setSizeHint(itemWidget->size() * 1.5);
     connect(itemWidget, SIGNAL(selfDelete()), this, SLOT(deleteParamItem()));
 }
 
 void PostDialog::deleteParamItem()
 {
-    KeyValueItemWidget *itemWidget = (KeyValueItemWidget*) sender();
+    KeyValueItemWidget *itemWidget = (KeyValueItemWidget *)sender();
     paramsList->removeItemWidget(itemWidget);
     delete itemWidget;
 }
@@ -132,13 +132,13 @@ void PostDialog::addDataItem()
     KeyValueItemWidget *itemWidget = new KeyValueItemWidget(this);
     dataList->addItem(itemWidget);
     dataList->setItemWidget(itemWidget, itemWidget);
-    itemWidget->setSizeHint(itemWidget->size()*1.5);
+    itemWidget->setSizeHint(itemWidget->size() * 1.5);
     connect(itemWidget, SIGNAL(selfDelete()), this, SLOT(deleteParamItem()));
 }
 
 void PostDialog::deleteDataItem()
 {
-    KeyValueItemWidget *itemWidget = (KeyValueItemWidget*) sender();
+    KeyValueItemWidget *itemWidget = (KeyValueItemWidget *)sender();
     dataList->removeItemWidget(itemWidget);
     delete itemWidget;
 }
@@ -149,8 +149,9 @@ void PostDialog::addFileItem()
     QString fileName = QFileDialog::getOpenFileName(this, "Choose the sent file");
     dataList->addItem(itemWidget);
     dataList->setItemWidget(itemWidget, itemWidget);
-    itemWidget->setSizeHint(itemWidget->size()*1.5);
+    itemWidget->setSizeHint(itemWidget->size() * 1.5);
     itemWidget->setFileName(fileName);
+    // If there are files sending, only multipart-data form is available according to the standard of post method.
     if (isFileAvailable())
     {
         xBtn->setCheckable(false);
@@ -161,7 +162,7 @@ void PostDialog::addFileItem()
 
 void PostDialog::deleteFileItem()
 {
-    FileItemWidget *itemWidget = (FileItemWidget*) sender();
+    FileItemWidget *itemWidget = (FileItemWidget *)sender();
     dataList->removeItemWidget(itemWidget);
     delete itemWidget;
     if (!isFileAvailable())
@@ -174,26 +175,28 @@ void PostDialog::deleteFileItem()
 void PostDialog::sendRequest()
 {
     QString url = urlInput->text();
+    // If no parameters need to add, no '?' needs to add in the end of url.
     if (paramsList->count())
         url.append('?');
     for (int i = 0; i < paramsList->count(); ++i)
     {
-        KeyValueItemWidget *itemWidget = (KeyValueItemWidget*) paramsList->item(i);
+        KeyValueItemWidget *itemWidget = (KeyValueItemWidget *)paramsList->item(i);
         QString param = QString::fromLocal8Bit("%1=%2&").arg(itemWidget->getKey(), itemWidget->getValue());
         url.append(param);
     }
     QNetworkRequest request(url);
     resultDisplayer->clear();
     QNetworkReply *reply = nullptr;
-    if ((QRadioButton*)btnGroup->checkedButton() == xBtn)
+    // Choose to send request in which form according to the clicked button.
+    if ((QRadioButton *)btnGroup->checkedButton() == xBtn)
     {
         reply = sendXWWWRequest(request);
     }
-    else if ((QRadioButton*)btnGroup->checkedButton() == jsonBtn)
+    else if ((QRadioButton *)btnGroup->checkedButton() == jsonBtn)
     {
         reply = sendJsonRequest(request);
     }
-    else if ((QRadioButton*)btnGroup->checkedButton() == multiBtn)
+    else if ((QRadioButton *)btnGroup->checkedButton() == multiBtn)
     {
         reply = sendMultiRequest(request);
     }
@@ -203,13 +206,15 @@ void PostDialog::sendRequest()
     }
     if (reply != nullptr)
     {
+        // Let receiveReply method deal with the reply.
         connect(reply, SIGNAL(readyRead()), this, SLOT(receiveReply()));
     }
 }
 
 void PostDialog::receiveReply()
 {
-    QNetworkReply *reply = (QNetworkReply*) sender();
+    // Find the reply with the help of sender method.
+    QNetworkReply *reply = (QNetworkReply *)sender();
     resultDisplayer->insertPlainText(reply->readAll());
 }
 
