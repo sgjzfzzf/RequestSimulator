@@ -24,6 +24,7 @@
 #include <QHttpPart>
 #include "fileitemwidget.h"
 #include "jsonparserdialog.h"
+#include "regexdialog.h"
 #include "keyvalueitemwidget.h"
 #include "parse.h"
 
@@ -37,19 +38,19 @@ public:
     /*
         Based on the request send related information in the form of x-www-form-urlencode to server.
         @param QNetworkRequest the ref of related request.
-        @return QNetworkReply the reply from sever.
+        @return the reply from sever.
     */
     QNetworkReply *sendXWWWRequest(QNetworkRequest &);
     /*
         Based on the request send related information in the form of json to server.
         @param QNetworkRequest the ref of related request.
-        @return QNetworkReply the reply from sever.
+        @return the reply from sever.
     */
     QNetworkReply *sendJsonRequest(QNetworkRequest &);
     /*
         Based on the request send related information in the form of multipart-data to server.
         @param QNetworkRequest the ref of related request.
-        @return QNetworkReply the reply from sever.
+        @return the reply from sever.
     */
     QNetworkReply *sendMultiRequest(QNetworkRequest &);
 
@@ -57,7 +58,8 @@ private:
     QNetworkAccessManager *manager = new QNetworkAccessManager(this);
     QGridLayout *mainLayout = new QGridLayout(this);
     QMenu *networkMenu = new QMenu("Network", this);
-    QMenu *parsingkMenu = new QMenu("Parse", this);
+    QMenu *parsingMenu = new QMenu("Parse", this);
+    QMenu *regexMenu = new QMenu("Regex", this);
     QMenuBar *menuBar = new QMenuBar(this);
     QAction *addParamAction = new QAction("Add Parameters", this);
     QAction *addDataAction = new QAction("Add Data", this);
@@ -65,6 +67,7 @@ private:
     QAction *sendAction = new QAction("Send", this);
     QAction *HTMLAction = new QAction("Parse HTML", this);
     QAction *JsonAction = new QAction("Parse Json", this);
+    QAction *RegexAction = new QAction("Parse Regex", this);
     QLabel *urlLabel = new QLabel("URL:", this);
     QLineEdit *urlInput = new QLineEdit(this);
     QLabel *paramsLabel = new QLabel("Parameters:", this);
@@ -93,6 +96,7 @@ public slots:
     */
     void getParseHTML();
     void getParseJson();
+    void getRegex();
 };
 
 #endif // POSTDIALOG_H

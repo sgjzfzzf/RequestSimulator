@@ -10,10 +10,12 @@ PostDialog::PostDialog(QWidget *parent) : QDialog(parent)
     networkMenu->addAction(addDataAction);
     networkMenu->addAction(addFileAction);
     networkMenu->addAction(sendAction);
-    parsingkMenu->addAction(HTMLAction);
-    parsingkMenu->addAction(JsonAction);
+    parsingMenu->addAction(HTMLAction);
+    parsingMenu->addAction(JsonAction);
+    regexMenu->addAction(RegexAction);
     menuBar->addMenu(networkMenu);
-    menuBar->addMenu(parsingkMenu);
+    menuBar->addMenu(parsingMenu);
+    menuBar->addMenu(regexMenu);
     mainLayout->setMenuBar(menuBar);
 
     mainLayout->addWidget(urlLabel, 0, 0, 1, 1);
@@ -43,6 +45,7 @@ PostDialog::PostDialog(QWidget *parent) : QDialog(parent)
     connect(sendAction, SIGNAL(triggered()), this, SLOT(sendRequest()));
     connect(HTMLAction, SIGNAL(triggered()), this, SLOT(getParseHTML()));
     connect(JsonAction, SIGNAL(triggered()), this, SLOT(getParseJson()));
+    connect(RegexAction, SIGNAL(triggered()), this, SLOT(getRegex()));
 }
 
 bool PostDialog::isFileAvailable()
@@ -145,8 +148,12 @@ void PostDialog::deleteDataItem()
 
 void PostDialog::addFileItem()
 {
-    FileItemWidget *itemWidget = new FileItemWidget(this);
     QString fileName = QFileDialog::getOpenFileName(this, "Choose the sent file");
+    if (fileName == "")
+    {
+        return;
+    }
+    FileItemWidget *itemWidget = new FileItemWidget(this);
     dataList->addItem(itemWidget);
     dataList->setItemWidget(itemWidget, itemWidget);
     itemWidget->setSizeHint(itemWidget->size() * 1.5);
@@ -228,4 +235,11 @@ void PostDialog::getParseJson()
     JsonParserDialog *dialog = new JsonParserDialog(this);
     dialog->show();
     parseJson(dialog->getTreeWidget(), resultDisplayer->toPlainText().toLocal8Bit());
+}
+
+void PostDialog::getRegex()
+{
+    RegexDialog *dialog = new RegexDialog(this);
+    dialog->setContent(resultDisplayer->toPlainText());
+    dialog->show();
 }

@@ -10,8 +10,10 @@ GetDialog::GetDialog(QWidget *parent) : QDialog(parent)
     networkMenu->addAction(sendAction);
     parsingkMenu->addAction(HTMLAction);
     parsingkMenu->addAction(JsonAction);
+    regexMenu->addAction(regexAction);
     menuBar->addMenu(networkMenu);
     menuBar->addMenu(parsingkMenu);
+    menuBar->addMenu(regexMenu);
     mainLayout->setMenuBar(menuBar);
 
     mainLayout->addWidget(urlLabel, 0, 0, 1, 1);
@@ -27,6 +29,7 @@ GetDialog::GetDialog(QWidget *parent) : QDialog(parent)
     connect(sendAction, SIGNAL(triggered()), this, SLOT(sendRequest()));
     connect(HTMLAction, SIGNAL(triggered()), this, SLOT(getParseHTML()));
     connect(JsonAction, SIGNAL(triggered()), this, SLOT(getParseJson()));
+    connect(regexAction, SIGNAL(triggered()), this, SLOT(getRegex()));
 }
 
 void GetDialog::addItem()
@@ -77,6 +80,13 @@ void GetDialog::getParseHTML()
 void GetDialog::getParseJson()
 {
     JsonParserDialog *dialog = new JsonParserDialog(this);
-    dialog->show();
     parseJson(dialog->getTreeWidget(), resultDisplayer->toPlainText().toLocal8Bit());
+    dialog->show();
+}
+
+void GetDialog::getRegex()
+{
+    RegexDialog *dialog = new RegexDialog(this);
+    dialog->setContent(resultDisplayer->toPlainText());
+    dialog->show();
 }

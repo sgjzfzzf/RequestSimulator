@@ -1,6 +1,5 @@
 QT       += core gui
 QT       += network
-QT       += xml
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -19,6 +18,7 @@ SOURCES += \
     menudialog.cpp \
     parse.cpp \
     postdialog.cpp \
+    regexdialog.cpp \
     specialitemwidget.cpp
 
 HEADERS += \
@@ -29,6 +29,7 @@ HEADERS += \
     menudialog.h \
     parse.h \
     postdialog.h \
+    regexdialog.h \
     specialitemwidget.h
 
 FORMS += \

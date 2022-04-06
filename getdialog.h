@@ -19,6 +19,7 @@
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include "jsonparserdialog.h"
+#include "regexdialog.h"
 #include "keyvalueitemwidget.h"
 #include "parse.h"
 
@@ -31,11 +32,13 @@ public:
     QGridLayout *mainLayout = new QGridLayout(this);
     QMenu *networkMenu = new QMenu("Network", this);
     QMenu *parsingkMenu = new QMenu("Parse", this);
+    QMenu *regexMenu = new QMenu("Regex", this);
     QMenuBar *menuBar = new QMenuBar(this);
     QAction *addAction = new QAction("Add", this);
     QAction *sendAction = new QAction("Send", this);
     QAction *HTMLAction = new QAction("Parse HTML", this);
     QAction *JsonAction = new QAction("Parse Json", this);
+    QAction *regexAction = new QAction("Regex", this);
     QLabel *urlLabel = new QLabel("URL:", this);
     QLineEdit *urlInput = new QLineEdit(this);
     QLabel *paramsLabel = new QLabel("Parameters:", this);
@@ -53,6 +56,7 @@ public slots:
     */
     void getParseHTML();
     void getParseJson();
+    void getRegex();
 };
 
 #endif // GETDIALOG_H
